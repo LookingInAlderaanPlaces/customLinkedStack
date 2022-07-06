@@ -1,34 +1,62 @@
 #include <iostream>
 #include "Stack.h"
 
+void directions(int& input);
+void intInputValidation(int& theInput);
+
+
 int main() {
     Stack<int> myStack;
-    std::string answer;
-    int answertwo;
-    while (answer != "quit"){
-        do{
-            std::cout << "Enter push to add an "
-            "item, pop to remove top item,\n "
-            "peek to see top item, and quit " 
-            "to quit program." << std::endl;
+    int input, answer;
+    bool done = false;
+    while (!done){
+        directions(input);
+        intInputValidation(input);
+        switch (input){
+        case 1:
+            std::cout << "Enter a number you would like to push: ";
             std::cin >> answer;
-        }
-        while ((answer != "push") && (answer != "pop") && (answer != "peek") && (answer != "quit"));  
-        if (answer == "push"){
-            std::cout << "Enter a number to push to the stack.\n"; 
-            std::cin >> answertwo;
-            myStack.push(answertwo);
-        }
-        else if (answer == "pop"){
-            if (myStack.isEmpty()){
-                std::cout << "your stack is empty.\n";
-         }
-            else {
-                myStack.pop();
+            //intInputValidation(answer);
+            myStack.push(answer);
+            break;
+    
+        case 2:
+            myStack.pop();
+            break;
+
+        case 3:
+            try{        
+                std::cout << "Top item is: " << myStack.peek() << std::endl;
             }
-        }
-        else if (answer == "peek"){
-            std::cout << "top item is: " << myStack.peek() << std::endl;
+            catch(std::logic_error e){
+                std::cout << e.what() << std::endl;
+            }    
+            break;
+
+        case 4:
+            done = true;
+            break;
         }
     }
+}
+
+void directions(int& theInput){
+    std::cout << "Enter: \n"
+                 " \'1\' to add an item\n"
+                 " \'2\' to remove top item\n"
+                 " \'3\' to see top item\n"
+                 " \'4\' to quit program\n"
+                 "--------------------------\n";
+    std::cin >> theInput;
+}
+
+void intInputValidation(int& theInput){
+    while (!std::cin.good() || std::cin.peek() == ' '){
+        std::cout << "ERROR: Incorrect data entered!\n"
+                     "--------------------------\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max() , '\n');
+        std::cout << "Re-enter number: ";
+        std::cin >> theInput;
+        }
 }

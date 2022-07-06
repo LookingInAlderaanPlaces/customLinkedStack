@@ -1,33 +1,45 @@
+#include <cassert>
+
 template <typename ItemType>
-void Stack<ItemType>::push(ItemType newEntry){
+void Stack<ItemType>::push(ItemType& newEntry){
     if (!isEmpty()){
-        NodePtr LastPtr = topPtr;
+        NodePtr prevPtr = topPtr;
         topPtr = new Node<ItemType>;
-        topPtr->Node::setPrev(LastPtr);
-        topPtr->Node::setData(newEntry);
+        topPtr->setPrev(prevPtr);
+        topPtr->setData(newEntry);
         ++ItemCount;
     }
     else {
         topPtr = new Node<ItemType>;
-        topPtr->Node::setData(newEntry);
-        topPtr->Node::setPrev(nullptr);
+        topPtr->setData(newEntry);
+        topPtr->setPrev(nullptr);
         ++ItemCount;
     }
 }
 
 template <typename ItemType>
-void Stack<ItemType>::pop() {
+bool Stack<ItemType>::pop() {
     if (!isEmpty()){
         NodePtr DeletedPtr = topPtr;
-        topPtr = topPtr->Node::getPrev();
+        topPtr = topPtr->getPrev();
         delete DeletedPtr;
         --ItemCount;
+        return true;
+    }
+    else{
+        std::cout << "Your stack is empty!\n";
+        return false;
     }
 }
 
 template <typename ItemType>
 ItemType Stack<ItemType>::peek() {
-    return topPtr->Node::getData();
+    if (!isEmpty()){
+    return topPtr->getData();
+    }
+    else{
+        throw std::logic_error("Stack is empty!");
+    }
 }
 
 template <typename ItemType>

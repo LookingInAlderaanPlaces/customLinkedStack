@@ -10,9 +10,8 @@ class Stack{
   int ItemCount = 0;
  public:
   Stack() = default;
-  Stack(const Stack<ItemType>& theStack);
-  void push(ItemType newEntry);
-  void pop();
+  void push(ItemType& newEntry);
+  bool pop();
   ItemType peek();
   bool isEmpty();
 
